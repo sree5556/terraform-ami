@@ -8,7 +8,7 @@ resource "aws_instance" "ami-instance" {
 resource "null_resource" "apply" {
   provisioner "remote-exec" {
     connection {
-      host = aws_instance.ami-instance.id
+      host = aws_instance.ami-instance.public_ip
       user = jsondecode(data.aws_secretsmanager_secret_version.cred.secret_string)["SSH_USER"]
       password = jsondecode(data.aws_secretsmanager_secret_version.cred.secret_string)["SSH_PASS"]
 
@@ -52,6 +52,11 @@ resource "aws_security_group" "allow-ssh-for-ami" {
   }
 }
 
+module "files" {
+  source = "matti/resource/shell"
+  command = "date +%s"
+}
 resource "aws_ami_from_instance" "ami" {
-  name = "${var.component}"
+  name = "${var.component}-${module.files.stdout}"
   source_instance_id = aws_instance.ami-instance.id
+}
