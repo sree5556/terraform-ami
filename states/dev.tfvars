@@ -1,5 +1,5 @@
 bucket = "niv-dev-bucket"
 key    = "ami/dev/terraform.tfstate"
 region = "us-east-2"
-//dynamodb_table  = "niv-locking"
-ENV    = "dev"
+dynamodb_table  = "niv-locking"
+//ENV    = "dev"
