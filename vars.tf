@@ -1,3 +1,2 @@
-variable "ENV" {}
-variable "bucket" {}
-variable "key" {}
+variable "component" {}
+variable "PAT" {}
